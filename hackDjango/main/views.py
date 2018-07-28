@@ -115,7 +115,7 @@ class Notifications(APIView):
         for req in currentUser.avaliableTutors.all():
             subjectName = str(req.requestedSubject)
             if subjectName not in D["tutees"]:
-                D["tutees"][subjectName] = req.requestedSubject
+                D["tutees"][subjectName] = []
             D["tutees"][subjectName].append(req.tutee.name)
 
         return JsonResponse(data=D, safe=False)

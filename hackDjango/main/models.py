@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 class AppUser(models.Model):
     name = models.CharField(max_length=200)
     subjectsOffered = models.ManyToManyField("Subject",related_name="subjectsOffered")
+    
 
     def acceptRequest(self, request_id):
         Request.objects.get(id=(request_id)).acceptedTutors.add(self)
