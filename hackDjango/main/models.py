@@ -2,11 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-SUBJECTS = (("MAT", "Mathematics"),
-            ("GEO", "Geography"),
-            ("ENG", "English"),
-            ("MAN", "Mandarin"))
-
 
 class AppUser(models.Model):
     name = models.CharField(max_length=200)
@@ -44,6 +39,6 @@ class Request(models.Model):
 
     
 class Subject(models.Model):
-    name = models.CharField(max_length=3, choices=SUBJECTS)
+    name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
