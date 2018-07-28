@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import viewsets
-from .serializers import AppUserSerializer, SubjectSerializer
+from .serializers import AppUserSerializer, SubjectSerializer,RequestSerializer
 from .models import AppUser, Subject,Request
 # Create your views here.
 from django.http import HttpResponse
@@ -31,6 +31,13 @@ class SubjectViewSet(viewsets.ModelViewSet):
     """
     queryset = Subject.objects.all().order_by('id')
     serializer_class = SubjectSerializer
+
+class RequestViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Matches to be viewed or edited.
+    """
+    queryset = Request.objects.all().order_by('id')
+    serializer_class = RequestSerializer
 
 def addTwoNumber(a,b):
     return a+b
