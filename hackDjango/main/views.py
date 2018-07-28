@@ -20,7 +20,6 @@ def index(request):
     data = {
         'test':"test"
     }
-    #print(str(request))
     return HttpResponse(request.method)
 
 class UserViewSet(viewsets.ModelViewSet):

@@ -6,6 +6,8 @@ from rest_framework.decorators import action
 class AppUser(models.Model):
     name = models.CharField(max_length=200)
     subjectsOffered = models.ManyToManyField("Subject",related_name="subjectsOffered")
+    email = models.CharField(max_length=200, blank=True)
+    timezone = models.CharField(max_length=200, blank=True)
     
 
     def acceptRequest(self, request_id):
