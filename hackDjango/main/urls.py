@@ -8,5 +8,6 @@ router.register(r'users', views.UserViewSet)
 router.register(r'subjects', views.SubjectViewSet)
 urlpatterns = [
     path('', views.index, name='index'),
-    url(r'^', include(router.urls))
+    url(r'^', include(router.urls)),
+    url(r'^acceptTutor/$', views.AcceptTutor.as_view())
 ]

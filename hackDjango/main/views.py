@@ -31,20 +31,17 @@ class SubjectViewSet(viewsets.ModelViewSet):
     """
     queryset = Subject.objects.all().order_by('id')
     serializer_class = SubjectSerializer
-'''
-class ListUsers(APIView):
-    """
-    View to list all users in the system.
 
-    * Requires token authentication.
-    * Only admin users are able to access this view.
-    """
+def addTwoNumber(a,b):
+    return a+b
 
-    def get(self, request, format=None):
-        """
-        Return a list of all users.
-        """
-        print(request)
-        usernames = [user.name for user in AppUser.objects.all()]
-        return Response(request)
-'''
+class AcceptTutor(APIView):
+    def get(self,request):
+        parameters = request.query_params
+        return JsonResponse(data={
+            'test':parameters  
+        }
+            )
+    def post(self, request, *args, **kwargs):
+        my_result=addTwoNumber(request.data.get('firstnum'),request.data.get('secondnum'))
+        return Response(data={"my_return_data":my_result})
