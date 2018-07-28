@@ -97,6 +97,10 @@ class Notifications(APIView):
         params = request.query_params
         currentUser = AppUser.objects.get(id=int(params["user_id"]))
 
+        # <3 Hack
+        for req in Request.objects.all():
+            req.computeAvaliableTutors()
+
         D = {}
         # my potential tutors List
         D["tutors"] = {}

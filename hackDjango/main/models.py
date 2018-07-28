@@ -32,14 +32,14 @@ class Request(models.Model):
 
     fuffilled = models.BooleanField(default=False)
     
-    def computeAvaliableTutors(self, subject_id, frequency):
+    def computeAvaliableTutors(self):
         """
         Telling the tutors what requests are for them
         """
-        subject = Subject.objects.get(id=subject_id)
+        subject = self.requestedSubject
         for tutor in AppUser.objects.all():
             if subject in tutor.subjectsOffered.all():
-                avaliableTutors.add(tutor)
+                self.avaliableTutors.add(tutor)
 
     
 class Subject(models.Model):
