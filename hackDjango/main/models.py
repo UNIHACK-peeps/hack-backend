@@ -25,10 +25,10 @@ class Request(models.Model):
     tutee = models.OneToOneField("AppUser", on_delete=models.CASCADE, related_name="tutee")
     requestedSubject = models.OneToOneField("Subject", on_delete=models.CASCADE,
                                             related_name="requestedSubject")
-    avaliableTutors = models.ManyToManyField("AppUser", related_name="avaliableTutors")
-    acceptedTutors = models.ManyToManyField("AppUser", related_name="acceptedTutors")
+    avaliableTutors = models.ManyToManyField("AppUser", related_name="avaliableTutors", null=True)
+    acceptedTutors = models.ManyToManyField("AppUser", related_name="acceptedTutors", null=True)
     chosenTutor = models.OneToOneField("AppUser", on_delete=models.CASCADE,
-                                       related_name="chosenTutor")
+                                       related_name="chosenTutor", null=True)
     
     def computeAvaliableTutors(self, subject_id, frequency):
         """
