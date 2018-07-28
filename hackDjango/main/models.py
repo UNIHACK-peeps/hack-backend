@@ -30,6 +30,8 @@ class Request(models.Model):
     acceptedTutors = models.ManyToManyField("AppUser", related_name="acceptedTutors",blank=True,default=None)
     chosenTutor = models.OneToOneField("AppUser", on_delete=models.CASCADE,
                                        related_name="chosenTutor", null=True,blank = True)
+
+    fuffilled = models.BooleanField(default=False)
     
     def computeAvaliableTutors(self, subject_id, frequency):
         """
