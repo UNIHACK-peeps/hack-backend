@@ -8,22 +8,23 @@ class AppUser(models.Model):
     subjectsOffered = models.ManyToManyField("Subject",related_name="subjectsOffered")
 
     def acceptRequest(self, request_id):
-        Request[request_id].acceptedTutors_set.add(self)
+        Request.objects.get(id=(request_id)).acceptedTutors.add(self)
         
     def acceptTutor(self, request_id, tutor_id):
         currRequest = Request.objects.get(id=request_id)
         acceptedTutor = AppUser.objects.get(id=tutor_id)
         currRequest.chosenTutor = acceptedTutor
+        
     def __str__(self):
         return self.name
     
 class Request(models.Model):
-    tutee = models.OneToOneField("AppUser", on_delete=models.CASCADE, related_name="tutee")
+    tutee = models.ForeignKey("AppUser", on_delete=models.CASCADE, related_name="tutee")
     requestedSubject = models.OneToOneField("Subject", on_delete=models.CASCADE,
                                             related_name="requestedSubject")
     avaliableTutors = models.ManyToManyField("AppUser", related_name="avaliableTutors", blank=True)
     acceptedTutors = models.ManyToManyField("AppUser", related_name="acceptedTutors",blank=True,default=None)
-    chosenTutor = models.OneToOneField("AppUser", on_delete=models.CASCADE,
+    chosenTutor = models.ForeignKey("AppUser", on_delete=models.CASCADE,
                                        related_name="chosenTutor", null=True,blank = True)
 
     fuffilled = models.BooleanField(default=False)

@@ -11,6 +11,9 @@ from .models import AppUser, Subject,Request
 from django.http import HttpResponse
 from django.http import JsonResponse
 
+# Converting objects to dict
+from django.forms.models import model_to_dict
+
 
 def index(request):
     data = {
@@ -48,17 +51,26 @@ class AcceptTutee(APIView):
     def post(self, request, *args, **kwargs):
         acceptedTutor = AppUser.objects.get(id=int(request.data.get('tutor_id')))
         currentRequest = Request.objects.get(id=int(request.data.get('request_id')))
-        currentRequest.acceptedTutors.add(acceptedTutor)
+        Request.objects.get(id=request_id).acceptedTutors.add(acceptedTutor)
 
         return JsonResponse(data={"yeet": "yeet"})
 
-class AcceptTutor(APIView):
+class ConfirmTutor(APIView):
     """ Tutee Confirm Tutor """
     
     def post(self, request, *args, **kwargs):
         confirmedTutor = AppUser.objects.get(id=int(request.data.get("tutor_id")))
         currentRequest = Request.objects.get(id=int(request.data.get("request_id")))
         currentRequest.chosenTutor = confirmedTutor
+
+        return JsonResponse(data={"yeet": "yeet"})
+
+class getMyTutees(APIView):
+    
+    def get(self, request):
+        params = request.query_params
+        currentUser = AppUser.object.get(id=int(params["user_id"]))
+        return JsonResponse(data=currentUser.chosenTutor.all())
 
 class getMyTutors(APIView):
     """ /tutors?user_id=something """
@@ -69,15 +81,37 @@ class getMyTutors(APIView):
 
         # Get list of requests that this user id has, weird logic fuck my ass
         return JsonResponse(data=currentUser.tutee.all())
-    
-
-class getMyTutees(APIView):
-    
-    def get(self, request):
-        params = request.query_params
-        currentUser = AppUser.object.get(id=int(params["user_id"]))
-        return JsonResponse(data=currentUser.chosenTutor.all())
 
 class Notifications(APIView):
 
-    def 
+    def get(self, request):
+        params = request.query_params
+        currentUser = AppUser.object.get(id=int(params["user_id"]))
+
+        D = {}
+        # my potential tutors List
+        D["tutors"] = {}
+        for req in currentUser.tutees.all():
+            subjectName = str(req.requestedSubject)
+            D[subjectName] = []
+            for tutor in req.avaliableTutors:
+                tutor_dict = model_to_dict(tutor)
+                D[subjectName].append(tutor_dict)
+
+        # my Tutees List
+        D["tutees"] = {}
+        for req in currentUser.avaliableTutors.all():
+            subjectName = str(req.requestedSubject)
+            if subjectName not in D["tutees"]:
+                D[subjectName] = [req.tutee]
+            D[subjectName].append(req.tutee)
+
+        return JsonResponse(data=D)
+        
+        
+
+
+
+
+
+
