@@ -30,20 +30,17 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = AppUserSerializer
 class SubjectViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows Matches to be viewed or edited.
+    API endpoint that allows Subjects to be viewed or edited.
     """
     queryset = Subject.objects.all().order_by('id')
     serializer_class = SubjectSerializer
 
 class RequestViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows Matches to be viewed or edited.
+    API endpoint that allows Requests to be viewed or edited.
     """
     queryset = Request.objects.all().order_by('id')
     serializer_class = RequestSerializer
-
-def addTwoNumber(a,b):
-    return a+b
 
 class AcceptTutee(APIView):
     """ Adding the tutor who accepted the request to the accepted tutor list """
@@ -51,7 +48,7 @@ class AcceptTutee(APIView):
     def post(self, request, *args, **kwargs):
         acceptedTutor = AppUser.objects.get(id=int(request.data.get('tutor_id')))
         currentRequest = Request.objects.get(id=int(request.data.get('request_id')))
-        Request.objects.get(id=request_id).acceptedTutors.add(acceptedTutor)
+        currentRequest.acceptedTutors.add(acceptedTutor)
 
         return JsonResponse(data={"yeet": "yeet"})
 
