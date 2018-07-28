@@ -10,5 +10,5 @@ router.register(r'requests', views.RequestViewSet)
 urlpatterns = [
     path('', views.index, name='index'),
     url(r'^', include(router.urls)),
-    url(r'^acceptTutor/$', views.AcceptTutor.as_view())
+    url(r'^acceptTutee/$', views.AcceptTutee.as_view())
 ]

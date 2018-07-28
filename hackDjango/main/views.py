@@ -42,13 +42,42 @@ class RequestViewSet(viewsets.ModelViewSet):
 def addTwoNumber(a,b):
     return a+b
 
-class AcceptTutor(APIView):
-    def get(self,request):
-        parameters = request.query_params
-        return JsonResponse(data={
-            'test':parameters  
-        }
-            )
+class AcceptTutee(APIView):
+    """ Adding the tutor who accepted the request to the accepted tutor list """
+
     def post(self, request, *args, **kwargs):
-        my_result=addTwoNumber(request.data.get('firstnum'),request.data.get('secondnum'))
-        return Response(data={"my_return_data":my_result})
+        acceptedTutor = AppUser.objects.get(id=int(request.data.get('tutor_id')))
+        currentRequest = Request.objects.get(id=int(request.data.get('request_id')))
+        currentRequest.acceptedTutors.add(acceptedTutor)
+
+        return JsonResponse(data={"yeet": "yeet"})
+
+class AcceptTutor(APIView):
+    """ Tutee Confirm Tutor """
+    
+    def post(self, request, *args, **kwargs):
+        confirmedTutor = AppUser.objects.get(id=int(request.data.get("tutor_id")))
+        currentRequest = Request.objects.get(id=int(request.data.get("request_id")))
+        currentRequest.chosenTutor = confirmedTutor
+
+class getMyTutors(APIView):
+    """ /tutors?user_id=something """
+
+    def get(self, request):
+        params = request.query_params
+        currentUser = AppUser.object.get(id=int(params["user_id"]))
+
+        # Get list of requests that this user id has, weird logic fuck my ass
+        return JsonResponse(data=currentUser.tutee.all())
+    
+
+class getMyTutees(APIView):
+    
+    def get(self, request):
+        params = request.query_params
+        currentUser = AppUser.object.get(id=int(params["user_id"]))
+        return JsonResponse(data=currentUser.chosenTutor.all())
+
+class Notifications(APIView):
+
+    def 
