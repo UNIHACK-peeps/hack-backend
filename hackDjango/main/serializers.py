@@ -1,8 +1,8 @@
 #from django.contrib.auth.models import User, Group
-from .models import App_User
+from .models import AppUser
 from rest_framework import serializers
 
-class App_UserSerializer(serializers.ModelSerializer):
+class AppUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = App_User
+        model = AppUser
         fields = ('name','id')

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import viewsets
-from .serializers import App_UserSerializer
-from .models import App_User
+from .serializers import AppUserSerializer
+from .models import AppUser
 # Create your views here.
 from django.http import HttpResponse
 
@@ -14,5 +14,5 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Matches to be viewed or edited.
     """
-    queryset = App_User.objects.all().order_by('id')
-    serializer_class = App_UserSerializer
+    queryset = AppUser.objects.all().order_by('id')
+    serializer_class = AppUserSerializer
